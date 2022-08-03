@@ -1,0 +1,106 @@
+---
+layout: single
+title:  "Converting Roman Numeral to Integer"
+categories: coding
+tags: [DSA in Python, LeetCode]
+toc : false
+---
+
+# *Converting Roman Numeral to Integer*
+
+Given a roman numeral, can you convert it to an integer value?
+
+### Approach 1:
+
+This seemed like a straight-forward question. I thought about how to deal with the pattern where Roman numerals denote 4 as "IV."
+
+### Implementation:
+
+
+```python
+class Solution(object):
+    def romanToInt(self, s):
+        count = 0
+        for i in range(len(s)):
+            if s[i] == "I":
+                count += 1
+            elif s[i] == "V":
+                count += 5
+                if s[i-1] == "I" and i != 0:
+                     count -= 2
+            elif s[i] == "X":
+                count += 10
+                if s[i-1] == "I" and i != 0:
+                     count -= 2
+            elif s[i] == "L":
+                count += 50
+                if s[i-1] == "X" and i != 0:
+                     count -= 20
+            elif s[i] == "C":
+                count += 100
+                if s[i-1] == "X" and i != 0:
+                     count -= 20
+            elif s[i] == "D":
+                count += 500
+                if s[i-1] == "C" and i != 0:
+                     count -= 200
+            elif s[i] == "M":
+                count += 1000
+                if s[i-1] == "C" and i != 0:
+                    count -= 200
+        
+        return count
+```
+
+#### Complexity Analysis:
+
+Time Complexity:O(1)
+
+Space Complexity: O(1)
+
+
+### Approach 2:
+
+I felt like I could make the code more concise while keeping the readability of the codes.
+I once saw a Youtube video about utilizing Dictionary data structure to make the code more concise.
+
+In doing so, I thought of iterating from the last character of string so that it would be easier to keep track of the pattern I have previously mentioned.
+
+### Implementation:
+
+```python
+values = {
+    "I" : 1,
+    "V" : 5,
+    "X" : 10,
+    "L" : 50,
+    "C" : 100,
+    "D" : 500,
+    "M" : 1000
+}
+
+
+class Solution(object):
+    def romanToInt(self, s):
+        total = values.get(s[-1])
+        for i in reversed(range(len(s)-1)):
+            if values[s[i]] < values[s[i+1]]:
+                total -= values[s[i]]
+            else:
+                total += values[s[i]]
+        return total
+
+```
+
+#### Complexity Analysis:
+
+Time Complexity: O(1)
+
+Space Complexity: O(1)
+
+### Reflection:
+
+While the second approach minimized code repetition and maximized conciseness, the first approach actually was faster since it did not have to refer to a dictionary.
+The difference was not significant, so I think in my future work, I would go with the second approach!
+
+
